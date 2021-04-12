@@ -10,4 +10,5 @@ Development Lead
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Vicente Javier Julian Inglada <vjulian@upv.es>
+* Javier Palanca Cámara <jpalanca@dsic.upv.es>

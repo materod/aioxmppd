@@ -1,0 +1,4 @@
+# Logger parameters
+log_level: 'DEBUG'
+log_file: 'aioxmppd.log'
+log_rotation: '500 MB'
