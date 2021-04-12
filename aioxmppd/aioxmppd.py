@@ -22,13 +22,13 @@ def _raise_graceful_exit() -> None:
 
 
 class AioxmppServer:
-    def __init__(self, log_level, log_file, log_rotation):
+    def __init__(self, config):
         logger.add(
-            log_file,
+            config["logger"]["filename"],
             enqueue=True,
             format="<green>{time}</green> - <level>{level}: {message}</level>",
-            rotation=log_rotation,
-            level=log_level,
+            rotation=config["logger"]["rotation"],
+            level=config["logger"]["level"],
         )
 
     def stop(self, loop):
@@ -66,6 +66,7 @@ class AioxmppServer:
 
         try:
             loop.add_signal_handler(signal.SIGINT, _raise_graceful_exit)
+            loop.add_signal_handler(signal.SIGABRT, _raise_graceful_exit)
             loop.add_signal_handler(signal.SIGTERM, _raise_graceful_exit)
         except NotImplementedError:  # pragma: no cover
             # add_signal_handler is not implemented on Windows

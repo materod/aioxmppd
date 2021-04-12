@@ -2,7 +2,7 @@
 import click
 import sys
 import yaml
-from aioxmppd import AioxmppServer
+from aioxmppd.aioxmppd import AioxmppServer
 
 
 def CommandWithConfigFile(config_file_param_name):
@@ -27,14 +27,30 @@ def CommandWithConfigFile(config_file_param_name):
 @click.option(
     "--log_rotation", default=None, help="Sets the logging file rotation mode"
 )
+@click.option("--hostname", default="localhost", help="Server hostname")
+@click.option(
+    "--client_port", default=5222, help="Port for client-to-server connections"
+)
+@click.option(
+    "--server_port", default=5269, help="Port for client-to-server connections"
+)
 @click.option(
     "-c",
     "--config_file",
     type=click.Path(exists=True),
     help="Loads configuration from a yaml file",
 )
-def main(log_level, log_file, log_rotation, config_file):
-    server = AioxmppServer(log_level, log_file, log_rotation)
+def main(
+    log_level, log_file, log_rotation, hostname, client_port, server_port, config_file
+):
+    config = {
+        "logger": {"level": log_level, "filename": log_file, "rotation": log_rotation},
+        "host": {
+            "hostname": hostname,
+            "ports": {"client": client_port, "server": server_port},
+        },
+    }
+    server = AioxmppServer(config)
     server.run()
     return 0
 
