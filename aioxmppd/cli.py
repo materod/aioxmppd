@@ -2,7 +2,7 @@
 import click
 import sys
 import yaml
-from aioxmppd.aioxmppd import AioxmppServer
+from . import AioxmppServer
 
 
 def CommandWithConfigFile(config_file_param_name):
@@ -22,7 +22,7 @@ def CommandWithConfigFile(config_file_param_name):
 
 
 @click.command(cls=CommandWithConfigFile("config_file"))
-@click.option("--log_level", default="INFO", help="Sets the logging level")
+@click.option("--log_level", default="DEBUG", help="Sets the logging level")
 @click.option("--log_file", default="aioxmppd.log", help="Sets the logging filename")
 @click.option(
     "--log_rotation", default=None, help="Sets the logging file rotation mode"
@@ -51,7 +51,7 @@ def main(
         },
     }
     server = AioxmppServer(config)
-    server.run()
+    server.start()
     return 0
 
 
